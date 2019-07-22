@@ -47,15 +47,10 @@
 
 
    ym(52818583, "init", {
-
         clickmap:true,
-
         trackLinks:true,
-
         accurateTrackBounce:true,
-
         webvisor:true
-
    });
 
 </script>
@@ -72,72 +67,44 @@
 
 <body>
 
-<div id="app">
-
-    <div class="container text-center">
-
-        <div class="row">
-
-            <div class="col p-5">
-
-                <input class="from-control w-100 p-2"
-
-                       v-model="search"
-
-                       @input="searching"
-
-                       placeholder="მოძებნე სახელი ქართულად ან რუსულად ან ინგლისურად"
-
-                >
-
-                <div class="search-result ">
-
-                    <p v-if="send" class="p-2 btn btn-primary" @click="requestFood"> შეუკვეთე ინფო ამ საკვებზე </p>
-
+    <div id="app">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <p class="p-1 text-muted "> სულ {{all.length}} </p>
+                    <p class="p-1 text-muted"> წმიდა {{cleanCount.clean}} </p>
+                    <p class="p-1 text-muted"> უწმიდური {{cleanCount.unclean}} </p>
                 </div>
-
             </div>
-
+            <div class="row">
+                <div class="col pb-5">
+                    <input class="from-control w-100 p-2"
+                        v-model="search"
+                        @input="searching"
+                        placeholder="მოძებნე სახელი ქართულად ან რუსულად ან ინგლისურად"
+                    >
+                    <div class="search-result ">
+                        <p v-if="send" class="p-2 btn btn-primary" @click="requestFood"> შეუკვეთე ინფო ამ საკვებზე </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col clean">
+                    <h1 class="title">წმიდა</h1>
+                    <clean :allfood="all" :clean="true"></clean>
+                </div>
+                <div class="col unclean">
+                    <h1 class="title">უწმიდური</h1>
+                    <clean :allfood="all" :clean="false"></clean>
+                </div>
+            </div>
         </div>
 
-        <div class="row">
-
-            
-
-            <div class="col clean">
-
-                <h1 class="title">წმიდა</h1>
-
-                <clean :allfood="all" :clean="true"></clean>
-
-            </div>
-
-
-
-            <div class="col unclean">
-
-                <h1 class="title">უწმიდური</h1>
-
-                <clean :allfood="all" :clean="false"></clean>
-
-            </div>
-
-
-
-        </div>
-
+    <a target="_blank" href="https://en.wikibooks.org/wiki/Hebrew_Roots/Unclean_foods/Unclean_Animal_Food_List">link</a>
     </div>
 
-<a target="_blank" href="https://en.wikibooks.org/wiki/Hebrew_Roots/Unclean_foods/Unclean_Animal_Food_List">link</a>
-
-</div>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
-
-<script src="js/main.js"></script>
-
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script src="js/main.js"></script>
 </body>
-
 </html>

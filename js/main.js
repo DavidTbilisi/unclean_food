@@ -1,84 +1,61 @@
 Vue.component('clean',{
 
     template:`
-
 <div>
-
-    <div class="box" 
-
-    v-for="food in all" 
-
-    v-show="food.show"
-
-    v-if="clean?food.clean:!food.clean"
-
-    >
-
-    <div>
-
-        <a :href="food.link" target="_blank" title="გადასვლა ბმულზე">
-
-            <p>{{food.name}} - {{food.eng}} - {{food.rus}}</p>
-
+    <div class="box " :clean="clean"
+        v-for="food in all" 
+        v-show="food.show"
+        v-if="isClean(clean, food)"
+        >
+        <div >
+            <a :href="food.link" target="_blank" title="გადასვლა ბმულზე">
+                <p>{{food.name}} - {{food.eng}} - {{food.rus}}</p>
+            </a>
+            <p>{{food.shortdesc}}</p>
+        </div>
+        <a v-if="screenW > 1000" :href="food.img" target="_blank" title="სურათის გახსნა">
+            <div v-if="screenW > 1000" class="image" :style="{ backgroundImage:'url('+food.img+')'}"></div>
         </a>
-
-        
-
-        <p>{{food.shortdesc}}</p>
-
     </div>
-
-        
-
-        <a :href="food.img" target="_blank" title="სურათის გახსნა">
-
-           <!-- <img :src="food.img" :alt="food.shortdesc"> -->
-
-            <div class="image" :style="{
-
-                backgroundImage:'url('+food.img+')',
-
-            }"></div>
-
-        </a>
-
-        
-
-    </div>
-
 </div>
-
     `,
 
     props:['allfood','clean'],
-
     data:function () {
-
         return {
-
-            all:this.allfood
-
+            all:this.allfood,
+            screenW: this.screenW,
         }
-
-    }
-
+    },
+    methods: {
+        windowSize:function () {
+            this.screenW =  window.innerWidth;
+        },
+        isClean:function (clean, food) {
+            if (clean == true){
+               return food.clean;
+            } else {
+                return !food.clean;
+            }
+        }
+    },
+    mounted(){
+        console.log(this.windowSize());
+        window.addEventListener('resize', this.windowSize);
+    },
 });
-
-
-
+// ქართული თვზების სახელები 3 ენაზე http://club-monadire.ge/topic/1367-%E1%83%A1%E1%83%90%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%95%E1%83%94%E1%83%9A%E1%83%9D%E1%83%A1-%E1%83%97%E1%83%94%E1%83%95%E1%83%96%E1%83%94%E1%83%91%E1%83%98%E1%83%99%E1%83%90%E1%83%A2%E1%83%90%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98/
 new Vue({
-
     el:'#app',
-
     data:{
-        screenW: 1200,
-
+        cleanCount:{
+            clean:0,
+            unclean:0,
+        },
+        screenW: 1001,
         search:'',
-
         send:null,
-
         all:[
-
             {
 
                 "name": "გრძელფარფლიანი თინუსი",
@@ -548,100 +525,58 @@ new Vue({
             },
 
             ]
-
     },
 // http://bible-facts.ru/1727-rybu-kotoruyu-ne-stoit-est-spisok.html
     methods:{
-
         searching:function () {
-
             this.send = null;
-
             this.all.forEach((val, index) => {
-
                 let search = new RegExp(this.search, 'i');
-
-
-
                 let cond1 = search.test(val.name);
-
                 let cond2 = search.test(val.eng);
-
                 let cond3 = search.test(val.rus);
-
                 // debugger;
-
                 if (cond1 || cond2 || cond3){
-
                     this.all[index].show = true;
-
                     this.send=false;
-
                     // console.log(this.send,"show")
-
                 } else {
-
                     this.all[index].show = false;
-
                     if (this.send===null) {
-
                         this.send=true;
-
                     }
-
                     // console.log(this.send,"hide")
-
-
-
                 }
-
             });
-
         },
-
         requestFood: function () {
-
             let fd = new FormData();    
-
             fd.set("search", this.search,);
-
             console.log(this.search);
-
             this.send = null;
-
             axios({
-
                 method: 'post',
-
                 url: 'http://getsite.ge/food/email.php',
-
                 data: fd,
-
                 config: { headers: {'Content-Type': 'multipart/form-data' }}
-
                 })
-
                 .then(function (response) {
-
                     alert(response.data);
-
                 })
-
                 .catch(function (error) {
-
                     alert(error);
-
-                });        }
+                });        
+        },
+        countCleanUnclean:function(){
+            this.all.forEach(element => {
+                if(element.clean){this.cleanCount.clean+=1}else{this.cleanCount.unclean+=1};
+            });
+        }
 
     },
+    
     mounted(){
-        // console.log(this.screenW)
+        this.countCleanUnclean();
     },
-    created() {
-        this.screenW = screen.width;
-        // console.log(this.screenW)
-    }
-
-
 });
 

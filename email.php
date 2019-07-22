@@ -48,14 +48,10 @@ class Email {
 }
 
 class File {
-
     public static function save($path="request.txt",$text="",$mode = FILE_APPEND) {
         file_put_contents($path,$text,$mode);
     }
-    
-    
-    
-    }
+}
 
 
 
@@ -65,5 +61,4 @@ if ($req->get_post('search')):
     Email::$msg = "<b>" . $req->get_post('search','s'). "</b>";
     echo Email::send()? "შეკვეთა მიღებულია" : "შეკვეთა ვერ გაიგზავნა";
     File::save("request.txt",$req->get_post('search','s') . "\n");
-
 endif;

@@ -43,6 +43,12 @@ a, a:hover{
     background: var(--color6);
 }
 
+@media screen and (max-width: 1000px){
+    .box {
+        justify-content: center;
+    }
+}
+
 .box:hover{
     background: var(--color8);
     box-shadow: 0px 0px 10px 0px var(--color7);
@@ -52,8 +58,12 @@ a, a:hover{
     font-size: 1.5rem;
 }
 
-.box img{
-    width:200px;
+.box .image{
+    background-size: 100% 100%;
+    background-position: center center;
+}
+.box div{
+    padding-right: 15px;
 }
 
 .image{
