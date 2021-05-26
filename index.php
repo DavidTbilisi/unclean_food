@@ -109,11 +109,31 @@ echo "<script>let mobile = ".isMobile()." </script>";
                 :class="[item.clean == true ? 'tag-good' : 'tag-bed']"
                 v-if="item.show"
                 > 
-                <div :class="[item.clean == true ? 'uk-card-default' : 'uk-card-secondary','uk-card uk-card-body']">
-                    <a :href="item.link" target="_blank">{{item.name}} - {{item.eng}} - {{item.rus}}</a>
-                    <hr>
-                    <img width="100%" height="200px" :src="item.img" :alt="'image of '+item.eng">
-                </div> 
+ 
+
+                <div :class="[item.clean == true ? 'uk-card-default' : 'uk-card-secondary','uk-card uk-width-1-1@m']">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img class="uk-border-circle" width="40" height="40" :src="item.clean == true? 'yes.png': 'not.png'">
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">{{item.name}}</h3>
+                                <p class="uk-text-meta uk-margin-remove-top">{{item.clean == true ? 'წმიდა' : 'უწმიდური'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-body">
+                        <p>{{item.name}} - {{item.eng}} - {{item.rus}}</p>
+                        <img width="100%" height="200px" :src="item.img" :alt="'image of '+item.eng">
+                    </div>
+                    <div class="uk-card-footer">
+                        <a :href="item.link" target="_blank" class="uk-button uk-button-text">მეტის წაკითხვა</a>
+                    </div>
+                </div>
+
+
+                
                 </li>
             </ul>
 
